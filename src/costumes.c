@@ -94,8 +94,7 @@ costumes_action_t* costumes_find_action(costumes_action_type_t type, compare_par
                 {
                     // Found an action of the correct type but with wrong parameters
                     // This should make the action exhausted.
-                    // TODO: Create test case to enable this.
-                    // action->exhausted = true;
+                    action->exhausted = true;
                 }
             }
             else

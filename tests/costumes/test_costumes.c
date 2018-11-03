@@ -25,7 +25,9 @@ TEST_GROUP_RUNNER(costumes)
     RUN_TEST_CASE(costumes, add_expected_action_no_parameters_use_twice_ok);
     RUN_TEST_CASE(costumes, add_expected_action_no_parameters_use_too_many_times);
     RUN_TEST_CASE(costumes, add_several_expected_actions_find_one);
-    RUN_TEST_CASE(costumes, add_actions_with_parameters_find_correct_action);
+    RUN_TEST_CASE(costumes, actions_with_parameters_find_correct_action);
+    RUN_TEST_CASE(costumes, actions_with_parameters_action_not_found);
+    RUN_TEST_CASE(costumes, actions_with_parameters_find_exhaust_all_previous_actions_of_same_type);
 }
 
 TEST_SETUP(costumes)
@@ -107,21 +109,44 @@ TEST(costumes, add_several_expected_actions_find_one)
     check_no_param_action(no_param_action_one, fetched_action);
 }
 
-TEST(costumes, add_actions_with_parameters_find_correct_action)
+TEST(costumes, actions_with_parameters_find_correct_action)
 {
     costumes_action_t* fetched_action;
     int_action_parameter_type_t expected_parameters;
 
-    void* parameter_value_1 = create_int_parameters(1);
-    void* parameter_value_2 = create_int_parameters(2);
-
-    costumes_add_expected_action(int_parameter_action, 0, parameter_value_1);
-    costumes_add_expected_action(int_parameter_action, 0, parameter_value_2);
+    costumes_add_expected_action(int_parameter_action, 0, create_int_parameters(1));
+    costumes_add_expected_action(int_parameter_action, 0, create_int_parameters(2));
     expected_parameters.value = 2;
 
     fetched_action = costumes_find_action(int_parameter_action, int_parameter_comparator, &expected_parameters);
     TEST_ASSERT_EQUAL_INT(2, ((int_action_parameter_type_t*)fetched_action->parameters)->value);
     TEST_ASSERT_EQUAL_INT(1, fetched_action->used_times);
+}
+
+TEST(costumes, actions_with_parameters_action_not_found)
+{
+    int_action_parameter_type_t expected_parameters;
+
+    costumes_add_expected_action(int_parameter_action, 0, create_int_parameters(1));
+    expected_parameters.value = 3;
+
+    TEST_ASSERT_NULL(costumes_find_action(int_parameter_action, int_parameter_comparator, &expected_parameters));
+}
+
+TEST(costumes, actions_with_parameters_find_exhaust_all_previous_actions_of_same_type)
+{
+    costumes_action_t* fetched_action;
+    int_action_parameter_type_t expected_parameters;
+
+    costumes_add_expected_action(int_parameter_action, 0, create_int_parameters(1));
+    costumes_add_expected_action(int_parameter_action, 0, create_int_parameters(2));
+
+    expected_parameters.value = 2;
+    (void*)costumes_find_action(int_parameter_action, int_parameter_comparator, &expected_parameters);
+    expected_parameters.value = 1;
+
+    // The find off the second action exhausts the first action of the same type
+    TEST_ASSERT_NULL(costumes_find_action(int_parameter_action, int_parameter_comparator, &expected_parameters));
 }
 
 
