@@ -1,0 +1,15 @@
+language: c
+
+install:
+  - pip install --user cmake
+
+before_script:
+  - git clone https://github.com/ThrowTheSwitch/Unity.git ~/Unity
+  - mkdir build
+  - cd build
+
+script:
+  - cmake ..
+  - make
+  - ./bitloom-costumes-test -v
+

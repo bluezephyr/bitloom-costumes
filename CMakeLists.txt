@@ -12,7 +12,7 @@ set(UNITY_FILES
         ${UNITY_HOME}/src/unity.c
         )
 
-add_executable(unittest
+add_executable(bitloom-costumes-test
         ${UNITY_FILES}
         include/costumes.h
         tests/costumes/costumes_defines.h
@@ -21,7 +21,7 @@ add_executable(unittest
         tests/costumes/test_costumes.c
         )
 
-target_include_directories(unittest PUBLIC include)
-target_include_directories(unittest PRIVATE src)
-target_include_directories(unittest PRIVATE tests)
-target_include_directories(unittest PRIVATE tests/costumes)
+target_include_directories(bitloom-costumes-test PUBLIC include)
+target_include_directories(bitloom-costumes-test PRIVATE src)
+target_include_directories(bitloom-costumes-test PRIVATE tests)
+target_include_directories(bitloom-costumes-test PRIVATE tests/costumes)
