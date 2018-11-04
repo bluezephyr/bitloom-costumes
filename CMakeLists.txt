@@ -15,8 +15,9 @@ set(UNITY_FILES
 add_executable(bitloom-costumes-test
         ${UNITY_FILES}
         include/costumes.h
-        tests/costumes/costumes_defines.h
+        include/costumes_defines.h
         src/costumes.c
+        tests/config/costumes_config.h
         tests/test_main.c
         tests/costumes/test_costumes.c
         )
