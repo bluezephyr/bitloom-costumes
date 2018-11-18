@@ -12,17 +12,12 @@
 #define BL_COSTUMES_DEFINES_H
 
 #include <stdbool.h>
-#include "config/costumes_config.h"
-
-/********************************************************************
- * The following enum must be defined in the local configuration file
- * typedef enum costumes_action_type_t;
- ********************************************************************/
-
 
 /********************************************************************
  * Core definitions
  ********************************************************************/
+#define MAX_NO_OF_EXPECTED_ACTIONS 100
+
 /*
  * This function declaration is used to determine if two stored
  * actions are identical.  The user must implement such function and
@@ -30,6 +25,14 @@
  */
 typedef bool compare_parameters_func_t(void* expected, void* actual);
 
+/*
+ * All actions must be defined by the application using costumes.
+ */
+typedef unsigned int costumes_action_type_t;
+
+/*
+ * Struct to hold one expected action.
+ */
 typedef struct
 {
     costumes_action_type_t type;

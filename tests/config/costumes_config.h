@@ -11,14 +11,13 @@
 #ifndef BL_COSTUMES_CONFIG_H
 #define BL_COSTUMES_CONFIG_H
 
-#define MAX_NO_OF_EXPECTED_ACTIONS 100
 
-typedef enum
-{
-    no_param_action_one,
-    no_param_action_two,
-    int_parameter_action
-} costumes_action_type_t;
+/*
+ * List of all action types (costumes_action_type_t)
+ */
+#define no_param_action_one    (unsigned int)0
+#define no_param_action_two    (unsigned int)1
+#define int_parameter_action   (unsigned int)2
 
 typedef struct
 {

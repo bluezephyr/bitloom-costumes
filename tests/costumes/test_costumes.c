@@ -11,6 +11,7 @@
 #include <unity_fixture.h>
 #include "costumes.h"
 #include "costumes_defines.h"
+#include "costumes_config.h"
 
 /*
  * Tests to be written:

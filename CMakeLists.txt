@@ -4,14 +4,24 @@ project(Costumes C)
 set(CMAKE_C_STANDARD 99)
 set(UNITY_HOME $ENV{UNITY_HOME})
 
-include_directories(${UNITY_HOME}/src)
-include_directories(${UNITY_HOME}/extras/fixture/src)
-
 set(UNITY_FILES
         ${UNITY_HOME}/extras/fixture/src/unity_fixture.c
         ${UNITY_HOME}/src/unity.c
         )
 
+add_library(bitloom-costumes STATIC
+        ${UNITY_FILES}
+        include/costumes.h
+        include/costumes_defines.h
+        src/costumes.c
+        )
+
+target_include_directories(bitloom-costumes PUBLIC include)
+target_include_directories(bitloom-costumes PRIVATE ${UNITY_HOME}/src)
+target_include_directories(bitloom-costumes PRIVATE ${UNITY_HOME}/extras/fixture/src)
+
+
+# Unit test
 add_executable(bitloom-costumes-test
         ${UNITY_FILES}
         include/costumes.h
@@ -22,7 +32,10 @@ add_executable(bitloom-costumes-test
         tests/costumes/test_costumes.c
         )
 
-target_include_directories(bitloom-costumes-test PUBLIC include)
-target_include_directories(bitloom-costumes-test PRIVATE src)
+target_include_directories(bitloom-costumes-test PRIVATE include)
+target_include_directories(bitloom-costumes-test PRIVATE ${UNITY_HOME}/src)
+target_include_directories(bitloom-costumes-test PRIVATE ${UNITY_HOME}/extras/fixture/src)
 target_include_directories(bitloom-costumes-test PRIVATE tests)
 target_include_directories(bitloom-costumes-test PRIVATE tests/costumes)
+target_include_directories(bitloom-costumes-test PRIVATE tests/config)
+
