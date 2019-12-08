@@ -9,7 +9,7 @@ before_script:
   - cd build
 
 script:
-  - cmake ..
+  - cmake -D BITLOOM_ROOT=~ ..
   - make
   - ./bitloom-costumes-test -v
 
