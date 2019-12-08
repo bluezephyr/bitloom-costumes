@@ -6,6 +6,7 @@ set(UNITY_HOME $ENV{UNITY_HOME})
 
 set(UNITY_FILES
         ${UNITY_HOME}/extras/fixture/src/unity_fixture.c
+        ${UNITY_HOME}/extras/memory/src/unity_memory.c
         ${UNITY_HOME}/src/unity.c
         )
 
@@ -19,6 +20,7 @@ add_library(bitloom-costumes STATIC
 target_include_directories(bitloom-costumes PUBLIC include)
 target_include_directories(bitloom-costumes PRIVATE ${UNITY_HOME}/src)
 target_include_directories(bitloom-costumes PRIVATE ${UNITY_HOME}/extras/fixture/src)
+target_include_directories(bitloom-costumes PRIVATE ${UNITY_HOME}/extras/memory/src)
 
 
 # Unit test
