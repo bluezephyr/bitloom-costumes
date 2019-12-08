@@ -37,6 +37,7 @@ add_executable(bitloom-costumes-test
 target_include_directories(bitloom-costumes-test PRIVATE include)
 target_include_directories(bitloom-costumes-test PRIVATE ${UNITY_HOME}/src)
 target_include_directories(bitloom-costumes-test PRIVATE ${UNITY_HOME}/extras/fixture/src)
+target_include_directories(bitloom-costumes-test PRIVATE ${UNITY_HOME}/extras/memory/src)
 target_include_directories(bitloom-costumes-test PRIVATE tests)
 target_include_directories(bitloom-costumes-test PRIVATE tests/costumes)
 target_include_directories(bitloom-costumes-test PRIVATE tests/config)
