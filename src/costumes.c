@@ -54,25 +54,22 @@ void costumes_destroy(void)
     free(self.expected_actions);
 }
 
-/*
- * Add an expected action.
- * The max_usage parameter specifies the maximum number of times the action
- * may be used.  0 to specify no limit.
- */
-void costumes_add_expected_action(costumes_action_type_t type, unsigned int max_usage, void *parameters)
+void costumes_add_expected_action_and_return(costumes_action_type_t type, const char* type_name,
+                                             unsigned int max_usage, void *parameters, void* retval)
 {
     fail_when(too_many_expectations(), string_too_many_expectations);
 
     self.expected_actions[self.no_of_stored_actions].type = type;
+    self.expected_actions[self.no_of_stored_actions].type_name = type_name;
     self.expected_actions[self.no_of_stored_actions].max_usage = max_usage;
     self.expected_actions[self.no_of_stored_actions].used_times = 0;
     self.expected_actions[self.no_of_stored_actions].exhausted = false;
     self.expected_actions[self.no_of_stored_actions].parameters = parameters;
+    self.expected_actions[self.no_of_stored_actions].retval = retval;
     self.no_of_stored_actions++;
 }
 
-costumes_action_t* costumes_find_action(costumes_action_type_t type, compare_parameters_func_t *compare_parameters,
-                                        void *parameters)
+bool costumes_is_action_expected(costumes_action_type_t type, compare_func_t *compare, void *actual, void **retval)
 {
     int i;
     costumes_action_t* action;
@@ -83,9 +80,9 @@ costumes_action_t* costumes_find_action(costumes_action_type_t type, compare_par
 
         if ((action->type == type) && (!action->exhausted))
         {
-            if (compare_parameters != NULL)
+            if (compare != NULL)
             {
-                if (compare_parameters(action->parameters, parameters))
+                if (compare(action->parameters, actual))
                 {
                     // Found
                     break;
@@ -113,11 +110,12 @@ costumes_action_t* costumes_find_action(costumes_action_type_t type, compare_par
         {
             action->exhausted = true;
         }
-        return action;
+        *retval = action->retval;
+        return true;
     }
     else
     {
-        return NULL;
+        return false;
     }
 }
 

@@ -23,7 +23,7 @@
  * actions are identical.  The user must implement such function and
  * provide a pointer to it if parameters are used.
  */
-typedef bool compare_parameters_func_t(void* expected, void* actual);
+typedef bool compare_func_t(void* expected, void* actual);
 
 /*
  * All actions must be defined by the application using costumes.
@@ -40,6 +40,8 @@ typedef struct
     unsigned int used_times;
     bool exhausted;
     void* parameters;
+    void *retval;
+    const char *type_name;
 } costumes_action_t;
 
 
